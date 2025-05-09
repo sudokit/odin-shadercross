@@ -65,182 +65,165 @@ HLSL_Info :: struct {
 @(default_calling_convention = "c", link_prefix = "SDL_ShaderCross_")
 foreign libshadercross {
 
-	/**
- * Initializes SDL_shadercross
- *
- * \threadsafety This should only be called once, from a single thread.
- */
+
+	// Initializes SDL_shadercross
+	//
+	// \threadsafety This should only be called once, from a single thread.
 	Init :: proc() -> bool ---
-	/**
- * De-initializes SDL_shadercross
- *
- * \threadsafety This should only be called once, from a single thread.
- */
+
+	// De-initializes SDL_shadercross
+	//
+	// \threadsafety This should only be called once, from a single thread.
 	Quit :: proc() ---
 
-	/**
- * Get the supported shader formats that SPIRV cross-compilation can output
- *
- * \threadsafety It is safe to call this function from any thread.
- */
+
+	// Get the supported shader formats that SPIRV cross-compilation can output
+	//
+	// \threadsafety It is safe to call this function from any thread.
 	GetSPIRVShaderFormats :: proc() -> sdl.GPUShaderFormat ---
 
-	/**
- * Transpile to MSL code from SPIRV code.
- *
- * You must SDL_free the returned string once you are done with it.
- *
- * \param info a struct describing the shader to transpile.
- * \returns an SDL_malloc'd string containing MSL code.
- */
+
+	// Transpile to MSL code from SPIRV code.
+	//
+	// You must SDL_free the returned string once you are done with it.
+	//
+	// \param info a struct describing the shader to transpile.
+	// \returns an SDL_malloc'd string containing MSL code.
 	TranspileMSLFromSPIRV :: proc(info: ^SPIRV_Info) -> rawptr ---
 
-	/**
- * Transpile to HLSL code from SPIRV code.
- *
- * You must SDL_free the returned string once you are done with it.
- *
- * \param info a struct describing the shader to transpile.
- * \returns an SDL_malloc'd string containing HLSL code.
- */
+
+	// Transpile to HLSL code from SPIRV code.
+	//
+	// You must SDL_free the returned string once you are done with it.
+	//
+	// \param info a struct describing the shader to transpile.
+	// \returns an SDL_malloc'd string containing HLSL code.
 	TranspileHLSLFromSPIRV :: proc(info: ^SPIRV_Info) -> rawptr ---
 
-	/**
- * Compile DXBC bytecode from SPIRV code.
- *
- * You must SDL_free the returned buffer once you are done with it.
- *
- * \param info a struct describing the shader to transpile.
- * \param size filled in with the bytecode buffer size.
- * \returns an SDL_malloc'd buffer containing DXBC bytecode.
- */
+
+	// Compile DXBC bytecode from SPIRV code.
+	//
+	// You must SDL_free the returned buffer once you are done with it.
+	//
+	// \param info a struct describing the shader to transpile.
+	// \param size filled in with the bytecode buffer size.
+	// \returns an SDL_malloc'd buffer containing DXBC bytecode.
 	CompileDXBCFromSPIRV :: proc(info: ^SPIRV_Info, size: ^uint) -> rawptr ---
 
-	/**
- * Compile DXIL bytecode from SPIRV code.
- *
- * You must SDL_free the returned buffer once you are done with it.
- *
- * \param info a struct describing the shader to transpile.
- * \param size filled in with the bytecode buffer size.
- * \returns an SDL_malloc'd buffer containing DXIL bytecode.
- */
+
+	// Compile DXIL bytecode from SPIRV code.
+	//
+	// You must SDL_free the returned buffer once you are done with it.
+	//
+	// \param info a struct describing the shader to transpile.
+	// \param size filled in with the bytecode buffer size.
+	// \returns an SDL_malloc'd buffer containing DXIL bytecode.
 	CompileDXILFromSPIRV :: proc(info: ^SPIRV_Info, size: ^uint) -> rawptr ---
 
-	/**
- * Compile an SDL GPU shader from SPIRV code.
- *
- * \param device the SDL GPU device.
- * \param info a struct describing the shader to transpile.
- * \param metadata a pointer filled in with shader metadata.
- * \returns a compiled SDL_GPUShader
- *
- * \threadsafety It is safe to call this function from any thread.
- */
-	CompileGraphicsShaderFromSPIRV :: proc(device: sdl.GPUDevice, info: ^SPIRV_Info, metadata: ^Graphics_Shader_Metadata) -> sdl.GPUShader ---
 
-	/**
- * Compile an SDL GPU compute pipeline from SPIRV code.
- *
- * \param device the SDL GPU device.
- * \param info a struct describing the shader to transpile.
- * \param metadata a pointer filled in with compute pipeline metadata.
- * \returns a compiled SDL_GPUComputePipeline
- *
- * \threadsafety It is safe to call this function from any thread.
- */
-	CompileComputePipelineFromSPIRV :: proc(device: sdl.GPUDevice, info: ^SPIRV_Info, metadata: ^Compute_Pipeline_Metadata) -> sdl.GPUComputePipeline ---
+	// Compile an SDL GPU shader from SPIRV code.
+	//
+	// \param device the SDL GPU device.
+	// \param info a struct describing the shader to transpile.
+	// \param metadata a pointer filled in with shader metadata.
+	// \returns a compiled SDL_GPUShader
+	//
+	// \threadsafety It is safe to call this function from any thread.
+	CompileGraphicsShaderFromSPIRV :: proc(device: ^sdl.GPUDevice, info: ^SPIRV_Info, metadata: ^Graphics_Shader_Metadata) -> ^sdl.GPUShader ---
 
-	/**
- * Reflect graphics shader info from SPIRV code.
- *
- * \param bytecode the SPIRV bytecode.
- * \param bytecode_size the length of the SPIRV bytecode.
- * \param metadata a pointer filled in with shader metadata.
- *
- * \threadsafety It is safe to call this function from any thread.
- */
+
+	// Compile an SDL GPU compute pipeline from SPIRV code.
+	//
+	// \param device the SDL GPU device.
+	// \param info a struct describing the shader to transpile.
+	// \param metadata a pointer filled in with compute pipeline metadata.
+	// \returns a compiled SDL_GPUComputePipeline
+	//
+	// \threadsafety It is safe to call this function from any thread.
+	CompileComputePipelineFromSPIRV :: proc(device: ^sdl.GPUDevice, info: ^SPIRV_Info, metadata: ^Compute_Pipeline_Metadata) -> ^sdl.GPUComputePipeline ---
+
+
+	// Reflect graphics shader info from SPIRV code.
+	//
+	// \param bytecode the SPIRV bytecode.
+	// \param bytecode_size the length of the SPIRV bytecode.
+	// \param metadata a pointer filled in with shader metadata.
+	//
+	// \threadsafety It is safe to call this function from any thread.
 	ReflectGraphicsSPIRV :: proc(bytecode: [^]u8, bytecode_size: uint, metadata: ^Graphics_Shader_Metadata) -> bool ---
 
-	/**
- * Reflect compute pipeline info from SPIRV code.
- *
- * \param bytecode the SPIRV bytecode.
- * \param bytecode_size the length of the SPIRV bytecode.
- * \param metadata a pointer filled in with compute pipeline metadata.
- *
- * \threadsafety It is safe to call this function from any thread.
- */
+
+	// Reflect compute pipeline info from SPIRV code.
+	//
+	// \param bytecode the SPIRV bytecode.
+	// \param bytecode_size the length of the SPIRV bytecode.
+	// \param metadata a pointer filled in with compute pipeline metadata.
+	//
+	// \threadsafety It is safe to call this function from any thread.
 	ReflectComputeSPIRV :: proc(bytecode: [^]u8, bytecode_size: uint, metadata: ^Compute_Pipeline_Metadata) -> bool ---
 
-	/**
- * Get the supported shader formats that HLSL cross-compilation can output
- *
- * \threadsafety It is safe to call this function from any thread.
- */
+
+	// Get the supported shader formats that HLSL cross-compilation can output
+	//
+	// \threadsafety It is safe to call this function from any thread.
 	GetHLSLShaderFormats :: proc() -> sdl.GPUShaderFormat ---
 
-	/**
- * Compile to DXBC bytecode from HLSL code via a SPIRV-Cross round trip.
- *
- * You must SDL_free the returned buffer once you are done with it.
- *
- * \param info a struct describing the shader to transpile.
- * \param size filled in with the bytecode buffer size.
- * \returns an SDL_malloc'd buffer containing DXBC bytecode.
- *
- * \threadsafety It is safe to call this function from any thread.
- */
+
+	// Compile to DXBC bytecode from HLSL code via a SPIRV-Cross round trip.
+	//
+	// You must SDL_free the returned buffer once you are done with it.
+	//
+	// \param info a struct describing the shader to transpile.
+	// \param size filled in with the bytecode buffer size.
+	// \returns an SDL_malloc'd buffer containing DXBC bytecode.
+	//
+	// \threadsafety It is safe to call this function from any thread.
 	CompileDXBCFromHLSL :: proc(info: ^HLSL_Info, size: ^uint) -> rawptr ---
 
-	/**
- * Compile to DXIL bytecode from HLSL code via a SPIRV-Cross round trip.
- *
- * You must SDL_free the returned buffer once you are done with it.
- *
- * \param info a struct describing the shader to transpile.
- * \param size filled in with the bytecode buffer size.
- * \returns an SDL_malloc'd buffer containing DXIL bytecode.
- *
- * \threadsafety It is safe to call this function from any thread.
- */
+
+	// Compile to DXIL bytecode from HLSL code via a SPIRV-Cross round trip.
+	//
+	// You must SDL_free the returned buffer once you are done with it.
+	//
+	// \param info a struct describing the shader to transpile.
+	// \param size filled in with the bytecode buffer size.
+	// \returns an SDL_malloc'd buffer containing DXIL bytecode.
+	//
+	// \threadsafety It is safe to call this function from any thread.
 	CompileDXILFromHLSL :: proc(info: ^HLSL_Info, size: ^uint) -> rawptr ---
 
-	/**
- * Compile to SPIRV bytecode from HLSL code.
- *
- * You must SDL_free the returned buffer once you are done with it.
- *
- * \param info a struct describing the shader to transpile.
- * \param size filled in with the bytecode buffer size.
- * \returns an SDL_malloc'd buffer containing SPIRV bytecode.
- *
- * \threadsafety It is safe to call this function from any thread.
- */
+
+	// Compile to SPIRV bytecode from HLSL code.
+	//
+	// You must SDL_free the returned buffer once you are done with it.
+	//
+	// \param info a struct describing the shader to transpile.
+	// \param size filled in with the bytecode buffer size.
+	// \returns an SDL_malloc'd buffer containing SPIRV bytecode.
+	//
+	// \threadsafety It is safe to call this function from any thread.
 	CompileSPIRVFromHLSL :: proc(info: ^HLSL_Info, size: ^uint) -> rawptr ---
 
-	/**
- * Compile an SDL GPU shader from HLSL code.
- *
- * \param device the SDL GPU device.
- * \param info a struct describing the shader to transpile.
- * \param metadata a pointer filled in with shader metadata.
- * \returns a compiled SDL_GPUShader
- *
- * \threadsafety It is safe to call this function from any thread.
- */
-	CompileGraphicsShaderFromHLSL :: proc(device: sdl.GPUDevice, info: ^HLSL_Info, metadata: ^Graphics_Shader_Metadata) -> sdl.GPUShader ---
 
-	/**
- * Compile an SDL GPU compute pipeline from code.
- *
- * \param device the SDL GPU device.
- * \param info a struct describing the shader to transpile.
- * \param metadata a pointer filled in with compute pipeline metadata.
- * \returns a compiled SDL_GPUComputePipeline
- *
- * \threadsafety It is safe to call this function from any thread.
- */
-	CompileComputePipelineFromHLSL :: proc(device: sdl.GPUDevice, info: ^HLSL_Info, metadata: ^Compute_Pipeline_Metadata) -> sdl.GPUComputePipeline ---
+	// Compile an SDL GPU shader from HLSL code.
+	//
+	// \param device the SDL GPU device.
+	// \param info a struct describing the shader to transpile.
+	// \param metadata a pointer filled in with shader metadata.
+	// \returns a compiled SDL_GPUShader
+	//
+	// \threadsafety It is safe to call this function from any thread.
+	CompileGraphicsShaderFromHLSL :: proc(device: ^sdl.GPUDevice, info: ^HLSL_Info, metadata: ^Graphics_Shader_Metadata) -> ^sdl.GPUShader ---
+
+
+	// Compile an SDL GPU compute pipeline from code.
+	//
+	// \param device the SDL GPU device.
+	// \param info a struct describing the shader to transpile.
+	// \param metadata a pointer filled in with compute pipeline metadata.
+	// \returns a compiled SDL_GPUComputePipeline
+	//
+	// \threadsafety It is safe to call this function from any thread.
+	CompileComputePipelineFromHLSL :: proc(device: ^sdl.GPUDevice, info: ^HLSL_Info, metadata: ^Compute_Pipeline_Metadata) -> ^sdl.GPUComputePipeline ---
 }
 
